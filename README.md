@@ -1,292 +1,221 @@
-📌 KeystrokeSense – Typing-Based Stress Prediction using Machine Learning
+# KeystrokeSense  
+### Typing-Based Stress Detection Using Machine Learning  
+A Python + ML + Tkinter project for analyzing typing behavior to predict a user’s stress level.
 
-KeystrokeSense is a Python & Machine Learning project that predicts a user’s stress level (Calm / Normal / Stressed) based on typing behavior, including typing speed, mistakes, accuracy, difficulty score, and sleep hours.
+---
 
-The project uses real-world data from 53 users, includes feature engineering, model training, visualizations, and both manual and live automatic prediction modes.
+## 📌 Overview  
+KeystrokeSense is a machine learning project that predicts **stress level**—Calm, Normal, or Stressed—based on typing behavior patterns.
 
-⭐ Features
-✔ Data Collection Module
+The system collects:
+- Typing speed  
+- Mistakes per character  
+- Word-level errors  
+- Accuracy %  
+- Sleep hours  
+- Text difficulty score  
 
-Shows a reference text
+ML algorithms analyze these features to classify stress.  
+This project includes:
+✔ Data collection script  
+✔ Feature engineering  
+✔ ML model training  
+✔ Confusion matrix & graphs  
+✔ Tkinter GUI for live stress prediction  
+✔ Full GitHub project structure  
 
-User types it
+---
 
-Automatically measures:
+## 🎯 Key Features
 
-Time taken
+### **1️⃣ Typing Data Logger** (`typing_logger.py`)
+- Shows a random sentence.
+- User types it.
+- Script records:
+  - Time taken  
+  - Mistakes  
+  - Accuracy  
+  - Typed characters  
+  - Sleep hours  
+  - Stress label (self-reported)
 
-Characters typed
+Data saved into:
 
-Accuracy
+data/raw_sessions.csv
+data/sessions_with_features.csv
 
-Mistakes
+yaml
+Copy code
 
-Difficulty score
+---
 
-User enters:
+### **2️⃣ Feature Engineering**  
+The following predictive features are computed:
 
-Stress level (label for ML)
+| Feature | Meaning |
+|--------|---------|
+| chars_per_sec | Typing speed |
+| mistakes_per_char | Character errors |
+| word_mistake_rate | Word mismatch frequency |
+| accuracy_percent | Total accuracy |
+| difficulty_score | (Ref length – typed length) + mistakes |
+| sleep_hours | User-reported sleep |
 
-Sleep hours
+---
 
-Stored in raw_sessions.csv
+### **3️⃣ ML Models (Training)**  
+Two models were trained:
 
-✔ Feature Engineering Module
+- **Logistic Regression**
+- **Random Forest (Best Model)**  
+  📌 Final Accuracy: **~75%**
 
-Adds the following features:
+Confusion matrices + performance metrics were generated.
 
-chars_per_sec
-
-mistakes_per_char
-
-difficulty_score
-
-word_mistake_rate
-
-accuracy_percent
-
-sleep_hours
-
-Output stored in sessions_with_features.csv.
-
-✔ Machine Learning Model
-
-Two models tested:
-
-Model	Accuracy
-Logistic Regression	68.75%
-Random Forest	75%
-
-Random Forest performed best and is used as the final model.
-
-Model saved as:
+ML output model saved as:
 
 models/stress_model.pkl
 
-✔ Live Automatic Prediction (New!)
+yaml
+Copy code
 
-Script: live_predict.py
+---
 
-Shows a reference sentence
+### **4️⃣ Tkinter UI – Live Stress Prediction**  
+A complete GUI built with Tkinter.
 
-User types it live
+#### ✔ Features:
+- Reference sentence display  
+- Multiline typing box  
+- Sleep hour input  
+- “Predict Stress” button  
+- Shows:
+  - Predicted Stress  
+  - Time taken  
+  - Mistakes  
+  - Accuracy  
+  - Word error rate  
+  - Characters/sec  
+  - Difficulty score  
 
-System automatically extracts:
+---
 
-Speed
+## 🖼 Tkinter UI Screenshots
 
-Mistakes
+### **Main Interface**
+![Tkinter UI](graphs/ui interface.png)
 
-Accuracy
+More screenshots can be added in `graphs/`.
 
-Word errors
+---
 
-Difficulty score
+## 📊 Analysis Graphs
 
-Asks only sleep hours
+Generated in the `graphs/` folder:
 
-Predicts stress AUTOMATICALLY using trained model
+- `speed_vs_stress.png`
+- `mistakes_vs_stress.png`
+- `accuracy_vs_stress.png`
+- `sleep_vs_stress.png`
+- `feature_importance.png`
 
-This makes the system feel like a real-world product.
+Example:
 
-✔ Manual Prediction Module
+### **Feature Importance**
+![Feature Importance](graphs/feature_importance.png)
 
-Script: predict_stress.py
+---
 
-Useful when you already know feature values or want rapid testing.
+## 🧪 How to Run the Project
 
-✔ Professional Data Visualizations
+### **1️⃣ Install Dependencies**
+```bash
+pip install -r requirements.txt
+(or install manually: pandas, scikit-learn, matplotlib)
 
-Graphs included:
-
-Typing speed vs stress
-
-Mistakes vs stress
-
-Accuracy vs stress
-
-Sleep vs stress
-
-Feature importance (Random Forest)
-
-These make the project scientifically strong.
-
+2️⃣ Collect Typing Data
+bash
+Copy code
+python -m src.typing_logger
+3️⃣ Generate Features
+bash
+Copy code
+python -m src.feature_engineering
+4️⃣ Train ML Model
+bash
+Copy code
+python -m src.train_model
+5️⃣ Predict Stress from Manual Input
+bash
+Copy code
+python -m src.predict_stress
+6️⃣ Live Prediction (CLI)
+bash
+Copy code
+python -m src.live_predict
+7️⃣ Launch Tkinter UI
+bash
+Copy code
+python -m src.tk_ui
 📁 Project Structure
+kotlin
+Copy code
 keystrokesense/
 │
 ├── data/
 │   ├── raw_sessions.csv
-│   ├── sessions_with_features.csv
+│   └── sessions_with_features.csv
 │
-├── models/
-│   ├── stress_model.pkl
-│
-├── src/
-│   ├── typing_logger.py          # Collect training data
-│   ├── feature_engineering.py    # Generate features
-│   ├── train_model.py            # Train ML model
-│   ├── predict_stress.py         # Manual prediction
-│   ├── live_predict.py           # NEW — automatic prediction
-│
-├── graphs/                       # Visualizations
+├── graphs/
 │   ├── speed_vs_stress.png
 │   ├── mistakes_vs_stress.png
 │   ├── accuracy_vs_stress.png
 │   ├── sleep_vs_stress.png
 │   ├── feature_importance.png
+│   └── ui interface.png
 │
-├── requirements.txt
-└── README.md
+├── models/
+│   └── stress_model.pkl
+│
+├── src/
+│   ├── typing_logger.py
+│   ├── feature_engineering.py
+│   ├── train_model.py
+│   ├── predict_stress.py
+│   ├── live_predict.py
+│   ├── tk_ui.py
+│   └── make_plots.py
+│
+├── README.md
+└── requirements.txt
+🛠 Technologies Used
+Python
 
-🔧 Tech Stack
+Tkinter (GUI)
 
-Python 3.x
+Scikit-learn (ML models)
 
-Pandas
+Pandas / Numpy (data processing)
 
-Scikit-Learn
+Matplotlib (graphs)
 
-Matplotlib
+GitHub (version control)
 
-Joblib
+📌 Conclusion
+KeystrokeSense demonstrates that typing patterns can reveal behavioral stress levels.
+With only keystroke data + ML, the system achieves 75% accuracy and provides a full working UI for real-time prediction.
 
-🚀 How to Run the Project
-1️⃣ Clone the Repository
-git clone https://github.com/Chakshu-Mehta/keystrokesense.git
-cd keystrokesense
+This project is ideal for:
 
-2️⃣ Install Requirements
-pip install -r requirements.txt
+ML beginners
 
-3️⃣ Collect Training Data
-python -m src.typing_logger
+Behavioral analytics
 
+UI + ML integration practice
 
-This creates entries inside:
-
-data/raw_sessions.csv
-
-4️⃣ Generate Features
-python -m src.feature_engineering
-
-
-Creates:
-
-data/sessions_with_features.csv
-
-5️⃣ Train Machine Learning Model
-python -m src.train_model
-
-
-Outputs accuracy and confusion matrix.
-
-Saves model to:
-
-models/stress_model.pkl
-
-6️⃣ Predict Stress (Manual Inputs)
-python -m src.predict_stress
-
-
-This mode is useful for quick testing.
-
-7️⃣ Live Automatic Stress Prediction
-python -m src.live_predict
-
-
-This mode:
-
-Gives a sentence
-
-You type it
-
-System auto-computes all typing metrics
-
-Only asks for sleep hours
-
-Predicts stress level
-
-Shows full summary + result
-
-🧠 Why Ask for Sleep Hours?
-
-Sleep duration is not visible directly from typing behavior.
-Since sleep strongly affects stress, and since it was used as a real input during training, the model expects it at prediction time too.
-
-This keeps the prediction:
-
-Accurate
-
-Consistent with training
-
-Scientifically valid
-
-Easy for the user (one simple question)
-
-Future improvement: Build a sleep-hours predictor model.
-
-📊 Key Insights from Data
-
-Low sleep → low accuracy → high stress
-
-High mistakes_per_char → high stress
-
-High word mistake rate → high stress
-
-Calm users show stable typing behavior
-
-Feature importance:
-
-Sleep Hours
-
-Mistakes per char
-
-Accuracy
-
-Difficulty score
-
-Word mistake rate
-
-Typing speed
-
-The model’s logic matches real cognitive patterns.
-
-🎯 Conclusion
-
-KeystrokeSense successfully demonstrates:
-
-Behavioral biometrics
-
-Real-world data collection
-
-Machine learning feature engineering
-
-Model training & evaluation
-
-Live automatic prediction
-
-Clean modular architecture
-
-Interactive demo capability
-
-This makes it a strong academic + applied ML project.
-
-🔮 Future Enhancements
-
-Predict sleep hours automatically
-
-Larger dataset (100–500 users)
-
-Real-time keystroke logging
-
-Deep learning (LSTM for sequential typing data)
-
-Full web dashboard (Flask/Streamlit)
-
-Mobile typing stress app
+College academic submissions
 
 🙌 Author
-
 Chakshu Mehta
-B.Tech CSE (DSAI)
-Typing Behavior & Machine Learning Research Enthusiast
+CSE - Data Science & AI
+SRM Institute of Science and Technology
