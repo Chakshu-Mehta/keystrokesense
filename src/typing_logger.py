@@ -6,28 +6,16 @@ from datetime import datetime
 DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "raw_sessions.csv")
 
 REFERENCE_TEXTS = [
-    # Short / warm-up
     "Python makes data science fun and powerful for students who love logic.",
-    
-    # Medium
     "Typing speed and accuracy during a test can reflect how focused or distracted a student is at that moment.",
-    
-    # Medium-long
     "Machine learning models can discover hidden patterns in noisy data, helping us make better predictions about the real world.",
-    
-    # Long
     "College projects are a great way to learn real skills, because they force us to combine theory, problem solving, teamwork, and clear communication in one place.",
-    
-    # Longer
     "When students track their daily habits, such as sleep, screen time, and study hours, they can often see clear trends that explain why their performance improves or drops over time.",
-    
-    # Longer – more like a paragraph
     "Stress does not always reduce productivity immediately, but over time it can increase mistakes, reduce focus, and make even simple tasks feel much harder than they actually are."
 ]
 
 def choose_reference_text():
     import random
-    # To encourage variety, avoid repeating the last chosen text if possible
     if not hasattr(choose_reference_text, "last_text"):
         choose_reference_text.last_text = None
 
@@ -35,18 +23,6 @@ def choose_reference_text():
     text = random.choice(candidates)
     choose_reference_text.last_text = text
     return text
-
-'''REFERENCE_TEXTS = [
-    "Python makes data science fun and powerful.",
-    "Typing speed and accuracy can reflect our focus.",
-    "Machine learning finds patterns in noisy data.",
-    "College projects are a great way to learn real skills."
-]
-
-def choose_reference_text():
-    import random
-    return random.choice(REFERENCE_TEXTS)'''
-
 def calculate_accuracy(reference, typed):
     """Return (accuracy_percent, mistake_count)."""
     ref = reference.strip()
@@ -120,8 +96,6 @@ def run_typing_session():
 
     time_taken_sec = round(end_time - start_time, 2)
     accuracy_percent, mistake_count = calculate_accuracy(reference, typed_text)
-
-    # Simple proxy for backspaces: difference in length + mistakes
     reference_len = len(reference.strip())
     typed_len = len(typed_text.strip())
     backspace_estimate = max(0, (reference_len - typed_len) + mistake_count)
